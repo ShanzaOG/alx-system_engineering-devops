@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -la --sort = alphanumeric | awk '{printf "%s, ",$NF}' | sed 's/, $/\n/'
+ls -A | sort -t. -k1.2,1 -k2 | awk '{if ($1 == ".") printf "/"; else if ($1 == "..") printf "../"; else if ( -d $1) printf $1 "/, "; else printf $1 ", "} END {print ""}'
