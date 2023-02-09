@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -1 -p | tr '\n' ','
+ls -A | awk '$1=$1"/"| tr'\n' ','
