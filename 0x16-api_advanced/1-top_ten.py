@@ -3,34 +3,33 @@
 """
 prints the titles of the first 10 hot posts listed for a given subreddit
 """
-import requests
+
+from requests import get
+
 
 def top_ten(subreddit):
-    # Reddit API endpoint for getting the top posts of a subreddit
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    """
+    function that queries the Reddit API and prints the titles of the first
+    10 hot posts listed for a given subreddit
+    """
 
-    # Set a custom User-Agent to avoid potential issues
-    headers = {'User-Agent': 'CustomUserAgent'}
-
-    # Make the API request
-    response = requests.get(url, headers=headers)
-
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        try:
-            # Parse the JSON response
-            posts_data = response.json()
-
-            # Extract and print the titles of the first 10 posts
-            for index, post in enumerate(posts_data['data']['children'][:10], 1):
-                title = post['data']['title']
-                print(f"{index}. {title}")
-        except (KeyError, ValueError) as e:
-            print(f"Error parsing JSON: {e}")
-    elif response.status_code == 404:
-        # Subreddit not found, print None
+    if subreddit is None or not isinstance(subreddit, str):
         print("None")
-    else:
-        # Handle other error cases
-        print(f"Error: {response.status_code}")
+
+    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+    params = {'limit': 10}
+    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+
+    response = get(url, headers=user_agent, params=params)
+    results = response.json()
+
+    try:
+        my_data = results.get('data').get('children')
+
+        for i in my_data:
+            print(i.get('data').get('title'))
+
+    except Exception:
+        print("None")
+
 
