@@ -18,4 +18,3 @@ def top_ten(subreddit):
     else:
         print("None")
         return
-#!/usr/bin/python3
