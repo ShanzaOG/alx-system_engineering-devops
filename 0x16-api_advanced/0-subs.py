@@ -1,9 +1,14 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 """Function to query subscribers on a given Reddit subreddit."""
 import requests
+from json import loads
 
 
 def number_of_subscribers(subreddit):
+    """
+    function that returns number of subscribers from reddit
+    """
     headers = {"User-Agent":
                "linux:0x16.api.advanced:v1.0.0 (by allanshanza@gmail.com)"}
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
