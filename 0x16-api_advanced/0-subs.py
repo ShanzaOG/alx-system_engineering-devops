@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Sep 17 11:47:53 2020
-@author: Shanza Allan
+number of subscribers for a given subreddit
 """
 
 from requests import get
@@ -10,22 +8,20 @@ from requests import get
 
 def number_of_subscribers(subreddit):
     """
-    function that queries the Reddit and returns the number
-    of subscribers for a given subreddit.
+    function that queries the Reddit API and returns the number of subscribers
+    (not active users, total subscribers) for a given subreddit.
     """
-    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
-    headers = {
-        'User-Agent':
-        'Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) '
-        'Gecko/20100401 Firefox/3.6.3 (FM Scene 4.6.1)'
-    }
 
-    response = get(url, headers=headers)
-    
+    if subreddit is None or not isinstance(subreddit, str):
+        return 0
+
+    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
+    response = get(url, headers=user_agent)
+    results = response.json()
+
     try:
-        reddits = response.json()
-        subscribers = reddits.get('data', {}).get('subscribers', 0)
-        return int(subscribers)
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        return results.get('data').get('subscribers')
+
+    except Exception:
         return 0
