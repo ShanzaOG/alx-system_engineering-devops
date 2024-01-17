@@ -1,20 +1,30 @@
 #!/usr/bin/python3
-"""Function to query subscribers on a given Reddit subreddit."""
-import requests
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Sep 17 11:47:53 2020
+
+@author: Shanza allan
+"""
+from json import loads
+from requests import get
 
 
 def number_of_subscribers(subreddit):
+    """ecursive function that queries the Reddit API and returns a list
+    containing the titles of all hot articles for a given subreddit. If no
+    results are found for the given subreddit, the function should return None
     """
-    function that returns number of subscribers from reddit
-    """
-    headers = {"User-Agent":
-               "linux:0x16.api.advanced:v1.0.0 (by allanshanza@gmail.com)"}
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
+    headers = {
+        'User-Agent':
+        'Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) \
+        Gecko/20100401 Firefox/3.6.3 (FM Scene 4.6.1)'
+    }
+    response = get(url, headers=headers)
+    reddits = response.json()
 
-    if response.status_code == 200:
-        data = response.json().get("data")
-        return data.get("subscribers")
-    else:
+    try:
+        subscribers = reddits.get('data').get('subscribers')
+        return int(subscribers)
+    except:
         return 0
-
