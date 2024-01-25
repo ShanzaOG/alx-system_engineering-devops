@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+server {
+    listen 80;
+
+    # Public IP
+    server_name 127.0.0.1/airbnb-onepage/;
+
+    location / {
+        # Your configurations for serving content
+        # For example, proxy to a backend or serve static files
+        # ...
+    }
+}
+
+server {
+    listen 80;
+
+    # Local IP (private IP)
+    server_name localhost;
+
+    location / {
+        # Your configurations for serving content locally
+        # ...
+    }
+}
+
